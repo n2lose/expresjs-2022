@@ -1,0 +1,30 @@
+nav(class="navbar navbar-expand-lg navbar-light bg-light")
+        div(class="container-fluid")
+            a(href=".", class="navbar-brand") ExpressJS 
+            button(class="navbar-toggler", 
+                type="button", 
+                data-bs-toggle="collapse", 
+                data-bs-target="#navbarNav",
+                arial-controls="navbarNav",
+                aria-expanded="false",
+                aria-label="Toggle navigation") 
+                span(class="navbar-toggler-icon")
+            div(class="collapse navbar-collapse", id="navbarNav")
+                ul(class="navbar-nav me-auto mb-2 mb-lg-0")
+                    li(class="nav-item")
+                        a(class="nav-link active" aria-current="page", href=".") Home
+                        
+                    li(class="nav-item")
+                        a(class="nav-link", href="/users") Users
+                        
+                    li(class="nav-item")
+                        a(class="nav-link", href="/products") Products
+
+                    li(class="nav-item position-relative")
+                        a(class="nav-link", href="/cart") Cart
+                        if totalProductInCart 
+                            span(class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger")= totalProductInCart
+            .d-flex 
+                if user 
+                    p= user.name
+                

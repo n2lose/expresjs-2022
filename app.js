@@ -11,6 +11,7 @@ async function main() {
     await mongoose.connect(process.env.MONGO_URL);
 }
 
+const userRoutes = require('./routes/users.route');
 
 const port = 3000;
 
@@ -18,9 +19,17 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', './views');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser(process.env.SECRET_KEY));
+
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.use('/users', userRoutes);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

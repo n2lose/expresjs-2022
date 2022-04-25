@@ -18,3 +18,23 @@ module.exports.search = async (req, res) => {
 };
 
 
+module.exports.getUserDetails = async (req, res) => {
+    let userId = req.params.id;
+    console.log('userId ======================== ', userId);
+    // let foundUser = await UserModel.findById({id: userId}, (err, user) => {
+    //     if(err) {
+    //         console.log('User not found!'); 
+    //         return;
+    //     } else {
+    //         return user;
+    //     }
+        
+    // });
+    let foundUser = await UserModel.findById({_id: userId});
+    console.log("foundUser ================> ", foundUser);
+    res.render('users/profile', {
+        user: foundUser,
+        fullName: foundUser.first_name + ' ' + foundUser.last_name
+    });
+}
+

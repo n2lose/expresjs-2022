@@ -30,6 +30,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoutes);
+app.use('/error', (req, res) => { 
+    res.render('error')
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

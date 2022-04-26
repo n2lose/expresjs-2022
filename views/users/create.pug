@@ -1,0 +1,26 @@
+extends ../shared/common
+block content 
+
+    h1 Create user 
+    if errors 
+        each error in errors 
+            .alert.alert-danger= error
+    form(action="/users/create", method="POST", enctype='multipart/form-data')
+        .form-group.mb-3
+            label(for="first_name") First Name 
+            input#first_name.form-control(name="first_name", type="text", value= values ? values.first_name : "")
+            label(for="last_name") Name 
+            input#last_name.form-control(name="last_name", type="text", value= values ? values.last_name : "")
+        .form-group.mb-3
+            label(for="email") Email 
+            input#email.form-control(name="email", type="text", value= values ? values.email : "")
+        .form-group.mb-3
+            label(for="password") Password 
+            input#password.form-control(name="password", type="password")
+        .form-group.mb-3
+            label(for="phone") Phone 
+            input#phone.form-control(name="phone", type="text", value= values ? values.phone : "")
+        .form-group.mb-3
+            label(for="avatar") Avatar 
+            input#avatar.form-control-file(name="avatar", type="file")
+        button.btn.btn-primary.mt-3 Submit

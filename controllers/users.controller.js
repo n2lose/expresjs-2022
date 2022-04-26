@@ -17,24 +17,45 @@ module.exports.search = async (req, res) => {
     });
 };
 
-
 module.exports.getUserDetails = async (req, res) => {
     let userId = req.params.id;
-    console.log('userId ======================== ', userId);
-    // let foundUser = await UserModel.findById({id: userId}, (err, user) => {
-    //     if(err) {
-    //         console.log('User not found!'); 
-    //         return;
-    //     } else {
-    //         return user;
-    //     }
-        
-    // });
     let foundUser = await UserModel.findById({_id: userId});
-    console.log("foundUser ================> ", foundUser);
-    res.render('users/profile', {
-        user: foundUser,
-        fullName: foundUser.first_name + ' ' + foundUser.last_name
-    });
+    if(foundUser) {
+        res.render('users/profile', {
+            user: foundUser,
+            fullName: foundUser.first_name + ' ' + foundUser.last_name
+        });
+    } else {
+        res.render('error')
+    }
+};
+
+module.exports.create = (req, res) => {
+    res.render('users/create');
 }
 
+module.exports.postCreateUser = (req, res) => {
+    let avatarPath = req.file.path;
+    if(avatarPath) {
+        avatarPath = avatarPath.split('\\').slice(1).join('/');
+    }
+
+    let user = new UserModel(
+        {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            password: req.body.password,
+            phone: req.body.phone,
+            avatar: avatarPath ? avatarPath : ''
+        }
+    );
+
+    user.save((err) => {
+        if(err) {
+            console.log('error');
+            res.redirect('/users/create');
+        };
+    });
+    res.redirect('/users');
+}

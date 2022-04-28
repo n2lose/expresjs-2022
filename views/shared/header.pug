@@ -26,5 +26,5 @@ nav(class="navbar navbar-expand-lg navbar-light bg-light")
                             span(class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger")= totalProductInCart
             .d-flex 
                 if user 
-                    p= user.name
+                    p= user.first_name + ' ' + user.last_name
                 

@@ -1,9 +1,30 @@
 const UserModel = require('../models/user.model');
 
+
 module.exports.index = async (req, res) => {
     const users = await UserModel.find();
+
+    let perPage = 10;
+    let size = Math.ceil(users.length / perPage);
+    let page = parseInt (req.query.page) || 1;
+    let action = req.query.action;
+
+    if(action === 'prev') {
+        if(page === 1) return;
+        page = page -1;
+    }
+
+    if(action === 'next') {
+        if(page === size) return;
+        page = page +1;
+    }
+    
+    let start = (page -1) * perPage;
+    let end = page * perPage;
     res.render('users/index', {
-        users:users
+        users:users.slice(start, end),
+        size: size,
+        page: page
     });
 };
 

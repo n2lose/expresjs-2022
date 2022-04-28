@@ -11,9 +11,12 @@ async function main() {
     await mongoose.connect(process.env.MONGO_URL);
 }
 
-const userRoutes = require('./routes/users.route');
+const auth = require('./middlewares/authenticate.middleware');
 
-const port = 3000;
+const userRoutes = require('./routes/users.route');
+const authRoutes = require('./routes/auth.route');
+
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.set('view engine', 'pug');
@@ -29,10 +32,11 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.use('/users', userRoutes);
+app.use('/users', auth.requiredAuthenticate, userRoutes);
 app.use('/error', (req, res) => { 
     res.render('error')
 });
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

@@ -15,6 +15,7 @@ const auth = require('./middlewares/authenticate.middleware');
 
 const userRoutes = require('./routes/users.route');
 const authRoutes = require('./routes/auth.route');
+const productRoute = require('./routes/products.route')
 
 const port = process.env.PORT || 3000;
 
@@ -37,6 +38,7 @@ app.use('/error', (req, res) => {
     res.render('error')
 });
 app.use('/auth', authRoutes);
+app.use('/products', productRoute);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

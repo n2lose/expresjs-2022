@@ -1,0 +1,33 @@
+extends ../shared/common
+block content 
+  h1 Products 
+
+  .d-flex.align-items-center
+    form.d-flex.ms-auto(action="/users/search", method="GET")
+      input.form-control(type="text", name="q")
+      button.btn.btn-primary.ms-2 Search
+
+  div(class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3")
+    each product in products 
+      .col 
+        .card
+          img(class="bd-placeholder-img card-img-top", src=product.image)
+          .card-body 
+
+            h5.card-title= product.name
+            p.card-text= product.description 
+
+            a.btn.btn-primary(href="/cart/add/"+product.id) Add to card
+  nav.mt-5 
+    ul.pagination 
+      li.page-item 
+        a.page-link(href='/products/?page='+ page +'&action=prev') Previous
+      - var n = 1;
+        while n < size
+          li.page-item(class = (n === page) ? 'active' : '')
+            a.page-link(href="/products/?page="+ n)= n
+            - n++
+
+
+      li.page-item 
+        a.page-link(href='/products/?page='+ page +'&action=next') Next

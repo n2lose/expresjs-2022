@@ -12,10 +12,12 @@ async function main() {
 }
 
 const auth = require('./middlewares/authenticate.middleware');
+const sessionMiddleware = require('./middlewares/session.middleware');
 
 const userRoutes = require('./routes/users.route');
 const authRoutes = require('./routes/auth.route');
-const productRoute = require('./routes/products.route')
+const productRoute = require('./routes/products.route');
+const cartRoute = require('./routes/cart.route');
 
 const port = process.env.PORT || 3000;
 
@@ -26,6 +28,7 @@ app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser(process.env.SECRET_KEY));
+app.use(sessionMiddleware.addSessionId);
 
 app.use(express.static('public'));
 
@@ -39,6 +42,7 @@ app.use('/error', (req, res) => {
 });
 app.use('/auth', authRoutes);
 app.use('/products', productRoute);
+app.use('/cart', cartRoute);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
